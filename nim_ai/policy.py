@@ -1,5 +1,5 @@
 import pickle
-from engine import GameState, Move, NimEngine
+from engine import GameState, Move
 
 class TrainedPolicy:
     def __init__(self, model_path: str | None):
@@ -8,18 +8,18 @@ class TrainedPolicy:
         if model_path:
             with open(model_path, "rb") as f:
                 self.model = pickle.load(f)
+                
     
     """
     AI will choose a move. (Model is trained, so no need to worry about epsilon)
     """
-    def choose_move(self, state: GameState) -> Move:
+    def choose_move(self, state: GameState.piles) -> Move:
         bestAction = ()
-        statePiles = state.piles
-        stateTuple = tuple(statePiles)
+        stateTuple = tuple(state)
         bestQ = -1
 
         # Adding available actions to the list, and keeping track of best action
-        for i in range(len(statePiles)):
+        for i in range(len(state)):
             pileSize = state[i]
             for j in range(1, pileSize + 1):
                 action = (i, j)
